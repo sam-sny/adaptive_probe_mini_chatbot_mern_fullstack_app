@@ -2,43 +2,13 @@
 
 import '../styles/globals.css';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import ChatContainer from './components/ChatContainer';
 import { useAuth } from './context/AuthContext';
-import { toast } from 'sonner';
 
 export default function Home() {
-  const { isAuthenticated, loading, login, register } = useAuth();
-  console.log('[Home] render — loading:', loading, '| isAuthenticated:', isAuthenticated);
-  const [isSignup, setIsSignup] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      if (isSignup) {
-        if (password !== confirmPassword) {
-          toast.error('Passwords do not match');
-          setIsSubmitting(false);
-          return;
-        }
-        await register(email, password, name);
-      } else {
-        await login(email, password);
-      }
-    } catch (error) {
-      console.error('Auth error:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
     return (
@@ -58,10 +28,10 @@ export default function Home() {
         <footer className="bg-white border-t border-gray-200 px-6 py-4">
           <div className="flex items-center justify-between">
             <p className="text-xs text-gray-500">
-              Adaptive Probe v1.0 • AI-Powered Qualitative Research
+              Adaptive Probe v1.0 &bull; AI-Powered Qualitative Research
             </p>
             <Link href="/dashboard" className="text-blue-600 text-sm hover:underline">
-              View Researcher Dashboard →
+              View Researcher Dashboard &rarr;
             </Link>
           </div>
         </footer>
@@ -70,130 +40,201 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Adaptive Probe</h1>
-          <p className="text-gray-600">
-            {isSignup ? 'Create your account' : 'Sign in to your account'}
-          </p>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        {/* Background decoration */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-400 rounded-full blur-3xl"></div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {isSignup && (
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                Full Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="John Doe"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 lg:py-40">
+          <div className="text-center max-w-3xl mx-auto">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-400/20 mb-8">
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+              <span className="text-blue-300 text-sm font-medium">AI-Powered Qualitative Research</span>
             </div>
-          )}
 
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-              Email Address
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
+              Unlock Deeper Insights with{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+                Adaptive Interviews
+              </span>
+            </h1>
+
+            <p className="mt-6 text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
+              Adaptive Probe uses AI to conduct intelligent, probe-based qualitative interviews. 
+              It listens, evaluates response depth, and asks follow-up questions &mdash; just like a skilled researcher.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/auth/signup"
+                className="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg shadow-blue-600/25 transition-all hover:shadow-xl hover:shadow-blue-600/30 text-center"
+              >
+                Get Started Free
+              </Link>
+              <Link
+                href="/auth/login"
+                className="w-full sm:w-auto px-8 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg border border-white/20 transition-all text-center"
+              >
+                Sign In
+              </Link>
+            </div>
+
+            <p className="mt-4 text-sm text-gray-400">No credit card required &bull; Start interviewing in minutes</p>
+          </div>
+        </div>
+
+        {/* Wave divider */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 80h1440V30C1200 60 960 0 720 30S240 60 0 30v50z" fill="white" />
+          </svg>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 sm:py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              Why Researchers Choose Adaptive Probe
+            </h2>
+            <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
+              Built for qualitative researchers who need rich, detailed interview data without the manual effort.
+            </p>
           </div>
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-              minLength={isSignup ? 6 : undefined}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            {isSignup && <p className="text-xs text-gray-500 mt-1">Minimum 6 characters</p>}
-          </div>
-
-          {isSignup && (
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                Confirm Password
-              </label>
-              <input
-                id="confirmPassword"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Feature 1 */}
+            <div className="group p-8 rounded-2xl bg-gray-50 hover:bg-blue-50 border border-gray-100 hover:border-blue-200 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Adaptive Probing</h3>
+              <p className="text-gray-500 leading-relaxed">
+                AI evaluates response depth in real-time and issues up to 3 neutral follow-up probes to elicit richer, more detailed answers.
+              </p>
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting
-              ? isSignup ? 'Creating Account...' : 'Signing in...'
-              : isSignup ? 'Create Account' : 'Sign In'}
-          </button>
-        </form>
-
-        {!isSignup && (
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
+            {/* Feature 2 */}
+            <div className="group p-8 rounded-2xl bg-gray-50 hover:bg-blue-50 border border-gray-100 hover:border-blue-200 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Researcher Dashboard</h3>
+              <p className="text-gray-500 leading-relaxed">
+                Review full transcripts, AI-generated summaries, and export session data. Everything you need for analysis in one place.
+              </p>
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or</span>
+
+            {/* Feature 3 */}
+            <div className="group p-8 rounded-2xl bg-gray-50 hover:bg-blue-50 border border-gray-100 hover:border-blue-200 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Strict Neutrality</h3>
+              <p className="text-gray-500 leading-relaxed">
+                System prompt enforcement ensures unbiased, neutral probing. No leading questions &mdash; just authentic participant responses.
+              </p>
             </div>
           </div>
-        )}
+        </div>
+      </section>
 
-        {!isSignup && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <p className="text-sm font-semibold text-gray-800 mb-2">Demo Account:</p>
-            <p className="text-xs text-gray-700 mb-1"><strong>Email:</strong> demo@example.com</p>
-            <p className="text-xs text-gray-700"><strong>Password:</strong> password123</p>
-            <button
-              type="button"
-              onClick={() => { setEmail('demo@example.com'); setPassword('password123'); }}
-              className="mt-2 text-xs text-blue-600 hover:text-blue-700 font-semibold"
+      {/* How It Works Section */}
+      <section className="py-20 sm:py-28 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">How It Works</h2>
+            <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
+              From session start to AI summary in four simple steps.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Step 1 */}
+            <div className="text-center">
+              <div className="w-14 h-14 rounded-full bg-blue-600 text-white text-xl font-bold flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-600/20">1</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Start a Session</h3>
+              <p className="text-gray-500 text-sm">Create an interview session and receive your first AI-generated question.</p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="text-center">
+              <div className="w-14 h-14 rounded-full bg-blue-600 text-white text-xl font-bold flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-600/20">2</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Participants Respond</h3>
+              <p className="text-gray-500 text-sm">Participants answer naturally through a clean, conversational chat interface.</p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="text-center">
+              <div className="w-14 h-14 rounded-full bg-blue-600 text-white text-xl font-bold flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-600/20">3</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">AI Probes Deeper</h3>
+              <p className="text-gray-500 text-sm">The AI evaluates response depth and issues neutral follow-up probes when needed.</p>
+            </div>
+
+            {/* Step 4 */}
+            <div className="text-center">
+              <div className="w-14 h-14 rounded-full bg-blue-600 text-white text-xl font-bold flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-600/20">4</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Review &amp; Export</h3>
+              <p className="text-gray-500 text-sm">Get AI summaries, full transcripts, and export data for your research analysis.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 sm:py-28 bg-gradient-to-br from-blue-600 to-blue-700">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
+            Ready to Transform Your Research?
+          </h2>
+          <p className="text-lg text-blue-100 mb-10 max-w-xl mx-auto">
+            Join researchers using AI-powered adaptive probing to uncover deeper qualitative insights, faster.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/auth/signup"
+              className="w-full sm:w-auto px-8 py-3.5 bg-white text-blue-700 font-semibold rounded-lg shadow-lg hover:bg-gray-50 transition-all text-center"
             >
-              Use Demo Account →
-            </button>
+              Create Free Account
+            </Link>
+            <Link
+              href="/auth/login"
+              className="w-full sm:w-auto px-8 py-3.5 bg-transparent text-white font-semibold rounded-lg border-2 border-white/30 hover:bg-white/10 transition-all text-center"
+            >
+              Sign In
+            </Link>
           </div>
-        )}
+        </div>
+      </section>
 
-        <p className="text-center text-gray-600">
-          {isSignup ? 'Already have an account? ' : "Don't have an account? "}
-          <button
-            type="button"
-            onClick={() => { setIsSignup(!isSignup); setPassword(''); setConfirmPassword(''); }}
-            className="text-blue-600 hover:text-blue-700 font-semibold"
-          >
-            {isSignup ? 'Sign In' : 'Sign Up'}
-          </button>
-        </p>
-      </div>
+      {/* Footer */}
+      <footer className="bg-gray-900 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">🚀</span>
+              <span className="text-white font-bold text-lg">Adaptive Probe</span>
+            </div>
+            <p className="text-gray-400 text-sm">
+              &copy; {new Date().getFullYear()} Adaptive Probe. AI-Powered Qualitative Research.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
+
