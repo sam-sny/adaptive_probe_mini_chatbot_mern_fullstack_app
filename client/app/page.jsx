@@ -224,8 +224,8 @@ export default function Home() {
       <footer className="bg-gray-900 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-xl">🚀</span>
+            <div className="flex items-center gap-2.5">
+              <img src="/logo-icon.svg" alt="Adaptive Probe" className="h-8 w-8" />
               <span className="text-white font-bold text-lg">Adaptive Probe</span>
             </div>
             <p className="text-gray-400 text-sm">
