@@ -1,5 +1,5 @@
 const Session = require('../models/Session');
-const { generateProbe, generateSummary } = require('../services/openaiService');
+const { generateProbe, generateSummary } = require('../services/aiService');
 
 /**
  * Initialize a new chat session
